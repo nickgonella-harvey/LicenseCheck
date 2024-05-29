@@ -127,6 +127,9 @@ def main(args: dict) -> int:
 		list(map(types.ucstr, simpleConf.get("skip_dependencies", []))),
 	)
 
+	if simpleConf.get("only_non_compat", False):
+		depsWithLicenses = [l for l in depsWithLicenses if not l.licenseCompat]
+
 	myLice = license_matrix.licenseType(args["license"])[0] if args.get("license") else myLice
 
 	# Are any licenses incompatible?
@@ -140,7 +143,7 @@ def main(args: dict) -> int:
 			f"Invalid parameter(s) in `hide_output_parameters`. "
 			f"Valid parameters are: {', '.join(available_params)}"
 		)
-		raise ValueError(msg)
+		raise ValueError(msg)		
 	if simpleConf.get("format", "simple") in formatter.formatMap:
 		print(
 			formatter.formatMap[simpleConf.get("format", "simple")](
