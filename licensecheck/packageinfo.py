@@ -78,16 +78,20 @@ def getPackageInfoPypi(requirement: ucstr) -> PackageInfo:
 		urls = response.get("urls", [])
 		if urls:
 			size = int(urls[-1]["size"])
-
+			
+		license = UNKNOWN
+		if licenseClassifier and licenseClassifier != UNKNOWN:
+			license = licenseClassifier
+		elif "license" in info and info['license']:
+			license = info['license']
+			
 		return PackageInfo(
 			name=_pkgMetadataGet(info, "name"),
 			version=_pkgMetadataGet(info, "version"),
 			homePage=_pkgMetadataGet(info, "home_page"),
 			author=_pkgMetadataGet(info, "author"),
 			size=size,
-			license=ucstr(
-				licenseClassifier if licenseClassifier != UNKNOWN else info.get("license", UNKNOWN)
-			),
+			license=ucstr(license),
 		)
 	except KeyError as error:
 		raise ModuleNotFoundError from error
