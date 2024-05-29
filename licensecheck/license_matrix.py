@@ -97,6 +97,7 @@ def licenseLookup(licenseStr: ucstr, ignoreLicenses: list[ucstr] | None = None) 
 		"GPL-3.0": L.GPL_3,
 		"GPL": L.GPL_X,
 		"MPL": L.MPL,
+		"MOZILLA PUBLIC LICENSE 2.0 (MPL 2.0)": L.MPL,
 		"EUPL": L.EU,
 		"PROPRIETARY": L.PROPRIETARY,
 	}
